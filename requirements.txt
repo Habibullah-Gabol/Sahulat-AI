@@ -1,0 +1,14 @@
+# Sahulat AI - Initial Dependencies
+
+# Backend
+fastapi
+uvicorn
+python-multipart
+pydantic-settings
+
+# Document Processing
+pypdf
+
+# Testing
+pytest
+httpx
