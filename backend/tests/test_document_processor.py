@@ -145,3 +145,29 @@ def test_invalid_document(tmp_path):
 
     with pytest.raises(ValueError):
         process_document(pdf_path)
+
+def test_digital_page_contains_language_metadata(tmp_path):
+    pdf_path = tmp_path / "digital.pdf"
+    create_digital_pdf(pdf_path)
+
+    result = process_document(pdf_path)
+
+    page = result["pages"][0]
+
+    assert "language_detection" in page
+    assert page["language_detection"]["method"] == "fasttext"
+
+
+def test_manual_ocr_language_selection(tmp_path):
+    pdf_path = tmp_path / "scanned.pdf"
+    create_scanned_pdf(pdf_path)
+
+    result = process_document(
+        pdf_path,
+        ocr_language="english"
+    )
+
+    page = result["pages"][0]
+
+    assert page["language"] == "english"
+    assert page["language_detection"]["method"] == "manual_selection"

@@ -1,19 +1,21 @@
 
-import re
+from ftlangdetect import detect
 
 
-LANGUAGE_PATTERNS = {
-    "urdu": set("ٹڈڑںھۂے"),
-    "sindhi": set("ٻڄڏڊڙڳڪڱڻ"),
+LANGUAGE_CODES = {
+    "en": "english",
+    "ur": "urdu",
+    "sd": "sindhi"
 }
+
+CONFIDENCE_THRESHOLD = 0.70
 
 
 def detect_language(text: str) -> dict:
     """
-    Conservatively detect English, Urdu, or Sindhi.
+    Identify English, Urdu, and Sindhi using fastText LID-176.
 
-    Returns an undetermined result when the available
-    text does not provide enough evidence.
+    Low-confidence predictions are flagged for confirmation.
     """
 
     if not isinstance(text, str):
@@ -25,94 +27,29 @@ def detect_language(text: str) -> dict:
         return {
             "language": "undetermined",
             "confidence": 0.0,
-            "method": "character_analysis",
+            "method": "fasttext",
             "needs_confirmation": True
         }
 
-    letters = [
-        char for char in text
-        if char.isalpha()
-    ]
+    result = detect(text=text, low_memory=True)
 
-    if not letters:
-        return {
-            "language": "undetermined",
-            "confidence": 0.0,
-            "method": "character_analysis",
-            "needs_confirmation": True
-        }
+    language_code = result["lang"]
+    confidence = float(result["score"])
 
-    latin_count = sum(
-        "LATIN" in __import__("unicodedata").name(char, "")
-        for char in letters
+    language = LANGUAGE_CODES.get(
+        language_code,
+        "undetermined"
     )
 
-    arabic_count = sum(
-        "ARABIC" in __import__("unicodedata").name(char, "")
-        for char in letters
+    needs_confirmation = (
+        language == "undetermined"
+        or confidence < CONFIDENCE_THRESHOLD
     )
-
-    total_letters = len(letters)
-
-    latin_ratio = latin_count / total_letters
-    arabic_ratio = arabic_count / total_letters
-
-    # English detection
-    if latin_ratio >= 0.70:
-        return {
-            "language": "english",
-            "confidence": round(latin_ratio, 2),
-            "method": "script_analysis",
-            "needs_confirmation": False
-        }
-
-    # Urdu and Sindhi character signals
-    urdu_score = sum(
-        char in LANGUAGE_PATTERNS["urdu"]
-        for char in text
-    )
-
-    sindhi_score = sum(
-        char in LANGUAGE_PATTERNS["sindhi"]
-        for char in text
-    )
-
-    # Sindhi-specific character evidence
-    if sindhi_score > 0:
-        return {
-            "language": "sindhi",
-            "confidence": min(
-                0.95,
-                round(0.70 + sindhi_score * 0.05, 2)
-            ),
-            "method": "character_analysis",
-            "needs_confirmation": False
-        }
-
-    # Urdu-specific character evidence
-    if urdu_score > 0:
-        return {
-            "language": "urdu",
-            "confidence": min(
-                0.95,
-                round(0.70 + urdu_score * 0.05, 2)
-            ),
-            "method": "character_analysis",
-            "needs_confirmation": False
-        }
-
-    # Arabic-derived script without distinguishing evidence
-    if arabic_ratio > 0.50:
-        return {
-            "language": "undetermined",
-            "confidence": 0.0,
-            "method": "script_analysis",
-            "needs_confirmation": True
-        }
 
     return {
-        "language": "undetermined",
-        "confidence": 0.0,
-        "method": "character_analysis",
-        "needs_confirmation": True
+        "language": language,
+        "language_code": language_code,
+        "confidence": round(confidence, 4),
+        "method": "fasttext",
+        "needs_confirmation": needs_confirmation
     }
