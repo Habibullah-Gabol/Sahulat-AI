@@ -2,19 +2,21 @@
 # Sahulat AI - Project Dependencies
 
 # Backend
-fastapi
-uvicorn
+fastapi==0.141.1
+uvicorn==0.54.0
 python-multipart
 pydantic-settings
 
 # Document Processing
-pypdf
+pypdf==6.21.4
 PyMuPDF
 pytesseract
 Pillow
 
-# Testing
-pytest
-httpx
-
+# Multilingual NLP
 fasttext-langdetect==1.2.0
+sentence-transformers==5.7.0
+
+# Testing
+pytest==8.4.2
+httpx==0.28.1
