@@ -1,4 +1,5 @@
-# Sahulat AI - Initial Dependencies
+
+# Sahulat AI - Project Dependencies
 
 # Backend
 fastapi
@@ -8,7 +9,12 @@ pydantic-settings
 
 # Document Processing
 pypdf
+PyMuPDF
+pytesseract
+Pillow
 
 # Testing
 pytest
 httpx
+
+fasttext-langdetect==1.2.0

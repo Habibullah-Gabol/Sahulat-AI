@@ -1,40 +1,68 @@
+
 # Sahulat AI
 
-An intelligent multilingual document-understanding and personal assistance platform supporting English, Urdu, and Sindhi.
+**A multilingual AI-powered personal assistant for understanding documents and simplifying everyday tasks.**
+
+Sahulat AI aims to support English, Urdu, and Sindhi, helping users understand official documents, bills, notices, and administrative information.
 
 ## Project Vision
 
-Sahulat AI aims to help people understand complex documents, retrieve trustworthy information, and complete everyday administrative tasks using Large Language Models (LLMs), Natural Language Processing (NLP), Retrieval-Augmented Generation (RAG), and Agentic AI.
+Build an intelligent assistant that can:
+- Understand multilingual documents.
+- Extract information from digital and scanned PDFs.
+- Answer questions using document-grounded evidence.
+- Retrieve relevant official information.
+- Help users prepare drafts, checklists, and reminders.
 
-## Core Features
+## Current Development Status
 
-- Multilingual document understanding
-- Intelligent document extraction
-- Evidence-based question answering
-- Retrieval-Augmented Generation
-- Agentic workflow automation
-- English, Urdu, and Sindhi support
-- Document-grounded action generation
+### M0 — Project Initialization
+- [x] Repository structure
+- [x] Development environment
+- [x] GitHub integration
+
+### M1 — Document Ingestion
+- [x] PDF validation
+- [x] Digital PDF text extraction
+- [x] Scanned PDF OCR
+- [x] Mixed PDF processing
+- [x] English, Urdu, and Sindhi OCR language packs
+- [x] Page-level extraction metadata
+- [x] OCR confidence scores
+- [x] Baseline language detection
+- [x] Automated tests (32 passed)
 
 ## Technology Stack
 
-- Python
-- PyTorch
-- Hugging Face Transformers
-- FastAPI
-- LangGraph
-- Qdrant
-- PostgreSQL
-- React
+| Component | Technology |
+|---|---|
+| Backend | Python, FastAPI |
+| PDF Processing | pypdf, PyMuPDF |
+| OCR | Tesseract, pytesseract |
+| Image Processing | Pillow |
+| Language Detection | Custom baseline detector |
+| Testing | pytest, httpx |
 
-## Project Status
+## Project Structure
 
-Currently in Milestone 0: Project Foundation.
-
-## Research Direction
-
-Evaluating Multilingual Retrieval-Augmented Generation for Document-Grounded Question Answering in English, Urdu, and Sindhi.
-
-## License
-
-License to be determined.
+```text
+Sahulat-AI/
+├── backend/
+│   ├── app/
+│   │   ├── api/
+│   │   ├── ingestion/
+│   │   │   ├── pdf_extractor.py
+│   │   │   ├── validators.py
+│   │   │   ├── document_processor.py
+│   │   │   ├── ocr_engine.py
+│   │   │   └── language_detector.py
+│   │   ├── nlp/
+│   │   ├── rag/
+│   │   ├── agents/
+│   │   ├── evaluation/
+│   │   └── services/
+│   └── tests/
+├── requirements.txt
+├── .env.example
+├── .gitignore
+└── README.md
