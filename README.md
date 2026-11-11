@@ -39,8 +39,8 @@ Build an intelligent assistant that can:
 - [x] M2.2 — Multilingual text normalization
 - [x] M2.3 — Text preprocessing and sentence segmentation
 - [x] M2.4 — Multilingual embeddings using BGE-M3
-- [ ] M2.5 — Semantic similarity
-- [ ] M2.6 — Language-aware text chunking
+- [x] M2.5 — Semantic similarity
+- [x] M2.6 — Language-aware text chunking
 
 **M2.4 verification:**
 - BGE-M3 embedding dimension: 1024
@@ -49,7 +49,7 @@ Build an intelligent assistant that can:
 - Initial cross-language similarity experiment completed.
 - Cross-language experiment is exploratory, not a validated benchmark.
 
-**Automated tests:** 76 passed in the latest recorded regression run.
+**Automated tests:** 108 passed in the latest full regression run.
 
 ## Technology Stack
 
@@ -175,4 +175,4 @@ Planned components include:
 
 ---
 
-**Project Status:** M0 and M1 complete. M2 is in progress.
+**Project Status:** M0, M1, and M2 complete.
