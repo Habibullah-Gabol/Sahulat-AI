@@ -2,13 +2,16 @@
 import re
 import unicodedata
 
+
 URDU_CHARACTER_MAP = {
     "\u064A": "\u06CC",
     "\u0649": "\u06CC",
     "\u0643": "\u06A9",
 }
 
-DIACRITICS_PATTERN = re.compile(r"[\u064B-\u065F\u0670]")
+DIACRITICS_PATTERN = re.compile(
+    r"[\u064B-\u065F\u0670]"
+)
 
 
 def normalize_text(
@@ -16,6 +19,7 @@ def normalize_text(
     language: str | None = None,
     remove_diacritics: bool = False
 ) -> str:
+
     if not isinstance(text, str):
         raise TypeError("Text must be a string.")
 
@@ -38,13 +42,11 @@ def normalize_text(
     if remove_diacritics:
         text = DIACRITICS_PATTERN.sub("", text)
 
-    # Preserve paragraph boundaries and clean other whitespace.
+    # Preserve paragraph boundaries.
     paragraphs = re.split(r"\n\s*\n", text)
 
     cleaned_paragraphs = [
-        re.sub(r"[^\S\n]+", " ", paragraph)
-        .replace("\n", " ")
-        .strip()
+        re.sub(r"\s+", " ", paragraph).strip()
         for paragraph in paragraphs
     ]
 
